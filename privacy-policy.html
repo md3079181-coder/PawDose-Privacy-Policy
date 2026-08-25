@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — PawDose</title>
+<meta name="description" content="How PawDose collects, stores, and protects your and your pet's information.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F5EE;
+    --paper-2:#EAEFE4;
+    --ink:#152018;
+    --ink-soft:#3E4A41;
+    --forest:#15803D;
+    --forest-deep:#0A4C25;
+    --forest-tint:#E4EDE1;
+    --clay:#C2703C;
+    --clay-tint:#F4E4D6;
+    --line:rgba(21,32,24,0.12);
+    --line-soft:rgba(21,32,24,0.07);
+    --card:#FCFBF7;
+    --shadow:0 1px 2px rgba(21,32,24,0.04), 0 12px 32px -16px rgba(21,32,24,0.18);
+    --radius:20px;
+    --maxw:920px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Plus Jakarta Sans', -apple-system, sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--forest); color:var(--paper); }
+
+  a{ color:var(--forest-deep); text-decoration-color:rgba(21,128,61,0.35); text-underline-offset:3px; }
+  a:hover{ text-decoration-color:var(--forest-deep); }
+
+  .noise{
+    position:fixed; inset:0; pointer-events:none; opacity:0.35; mix-blend-mode:multiply; z-index:1;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- top progress bar (mobile-first pulse) ---------- */
+  .progress-bar{
+    position:fixed; top:0; left:0; height:3px; width:100%; z-index:60;
+    background:var(--line-soft);
+  }
+  .progress-bar::after{
+    content:''; display:block; height:100%; width:var(--scroll-pct,0%);
+    background:linear-gradient(90deg,var(--forest),var(--clay));
+    transition:width .08s linear;
+  }
+
+  /* ---------- desktop pulse rail (signature element) ---------- */
+  .pulse-rail{
+    position:fixed; left:28px; top:50%; transform:translateY(-50%);
+    height:min(64vh,560px); width:20px; z-index:40; display:none;
+  }
+  @media (min-width:1180px){ .pulse-rail{ display:block; } }
+  .pulse-rail .track{
+    position:absolute; left:50%; top:0; bottom:0; width:2px; margin-left:-1px;
+    background:var(--line);
+  }
+  .pulse-rail .fill{
+    position:absolute; left:50%; top:0; width:2px; margin-left:-1px; height:0%;
+    background:linear-gradient(180deg,var(--forest),var(--clay));
+    transition:height .12s linear;
+    border-radius:2px;
+  }
+  .pulse-rail .dot{
+    position:absolute; left:50%; width:9px; height:9px; margin-left:-4.5px; margin-top:-4.5px;
+    border-radius:50%; background:var(--paper); border:2px solid var(--line);
+    transition:all .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .pulse-rail .dot.active{
+    background:var(--forest); border-color:var(--forest);
+    box-shadow:0 0 0 5px rgba(21,128,61,0.15);
+  }
+  .pulse-rail .dot .rail-label{
+    position:absolute; left:20px; top:50%; transform:translateY(-50%);
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.03em;
+    white-space:nowrap; color:var(--ink-soft); opacity:0; transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .pulse-rail .dot.active .rail-label{ opacity:1; color:var(--forest-deep); font-weight:500; }
+
+  /* ---------- layout shell ---------- */
+  .shell{ max-width:var(--maxw); margin:0 auto; padding:0 24px; position:relative; z-index:2; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:88px 0 56px;
+    position:relative;
+  }
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--forest-deep); background:var(--forest-tint);
+    border:1px solid rgba(21,128,61,0.22); border-radius:100px; padding:6px 14px 6px 10px;
+    opacity:0; animation:rise .7s .05s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero-badge svg{ width:15px; height:15px; }
+  h1.hero-title{
+    font-family:'Fraunces', serif; font-weight:600; font-optical-sizing:auto;
+    font-size:clamp(2.5rem, 6vw, 4.1rem); line-height:1.03; letter-spacing:-.01em;
+    margin:22px 0 0; color:var(--ink);
+    opacity:0; animation:rise .8s .15s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  h1.hero-title em{ font-style:italic; color:var(--forest); font-weight:500;}
+  .hero-sub{
+    font-size:1.13rem; color:var(--ink-soft); max-width:56ch; margin:20px 0 0;
+    opacity:0; animation:rise .8s .28s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:28px;
+    opacity:0; animation:rise .8s .4s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .meta-chip{
+    font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:8px; padding:7px 11px;
+    background:var(--card);
+  }
+  .meta-chip b{ color:var(--ink); font-weight:600; }
+
+  @keyframes rise{ from{ opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  /* heartbeat monogram in hero */
+  .hero-monogram{
+    position:absolute; right:24px; top:70px; width:118px; height:118px;
+    display:none;
+  }
+  @media (min-width:760px){ .hero-monogram{ display:block; } }
+  .hero-monogram svg{ width:100%; height:100%; }
+  .hb-path{
+    stroke-dasharray:340; stroke-dashoffset:340;
+    animation:draw 1.8s .5s cubic-bezier(.3,.7,.3,1) forwards;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  /* ---------- sticky section nav ---------- */
+  .section-nav-wrap{
+    position:sticky; top:0; z-index:50;
+    background:linear-gradient(var(--paper) 78%, transparent);
+    padding-top:10px; margin-bottom:8px;
+  }
+  .section-nav{
+    display:flex; gap:8px; overflow-x:auto; padding:10px 0 16px;
+    scrollbar-width:none;
+  }
+  .section-nav::-webkit-scrollbar{ display:none; }
+  .nav-chip{
+    flex:0 0 auto; font-family:'IBM Plex Mono',monospace; font-size:12px;
+    color:var(--ink-soft); background:var(--card); border:1px solid var(--line);
+    border-radius:100px; padding:8px 14px; cursor:pointer; white-space:nowrap;
+    text-decoration:none; transition:all .2s ease;
+  }
+  .nav-chip:hover{ border-color:var(--forest); color:var(--forest-deep); }
+  .nav-chip.active{
+    background:var(--forest); border-color:var(--forest); color:#fff;
+  }
+
+  /* ---------- sections ---------- */
+  .policy-section{ padding:52px 0; border-top:1px solid var(--line-soft); scroll-margin-top:90px; }
+  .policy-section:first-of-type{ border-top:none; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--clay); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .eyebrow::before{ content:''; width:22px; height:1px; background:var(--clay); }
+
+  h2.section-title{
+    font-family:'Fraunces', serif; font-weight:600; font-size:clamp(1.55rem,3vw,2.15rem);
+    letter-spacing:-.01em; margin:0 0 16px; color:var(--ink);
+  }
+  .section-intro{ color:var(--ink-soft); max-width:66ch; margin-bottom:28px; font-size:1.02rem; }
+  .section-intro:last-child{ margin-bottom:0; }
+
+  p{ margin:0 0 16px; color:var(--ink-soft); font-size:1.02rem; }
+  strong{ color:var(--ink); font-weight:650; }
+
+  /* reveal-on-scroll */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- data cards grid ---------- */
+  .card-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:8px; }
+  .data-card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow); transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease;
+  }
+  .data-card:hover{ transform:translateY(-4px); box-shadow:0 4px 8px rgba(21,32,24,0.05), 0 22px 44px -18px rgba(21,32,24,0.24); }
+  .data-card .card-icon{
+    width:38px; height:38px; border-radius:11px; background:var(--forest-tint);
+    display:flex; align-items:center; justify-content:center; margin-bottom:14px;
+  }
+  .data-card .card-icon svg{ width:19px; height:19px; stroke:var(--forest-deep); }
+  .data-card h3{ font-family:'Fraunces',serif; font-weight:600; font-size:1.08rem; margin:0 0 8px; color:var(--ink); }
+  .data-card p{ font-size:.94rem; margin:0; color:var(--ink-soft); }
+  .tag-row{ display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .tag{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.02em;
+    padding:4px 8px; border-radius:6px; background:var(--forest-tint); color:var(--forest-deep);
+    border:1px solid rgba(21,128,61,0.18);
+  }
+  .tag.clay{ background:var(--clay-tint); color:#8A4A22; border-color:rgba(194,112,60,0.25); }
+
+  /* ---------- permission list ---------- */
+  .perm-list{ display:flex; flex-direction:column; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:var(--card); box-shadow:var(--shadow); margin-top:8px;}
+  .perm-row{ display:grid; grid-template-columns:190px 1fr; gap:18px; padding:20px 22px; border-top:1px solid var(--line-soft); align-items:start;}
+  .perm-row:first-child{ border-top:none; }
+  @media (max-width:620px){ .perm-row{ grid-template-columns:1fr; gap:6px; } }
+  .perm-name{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; color:var(--forest-deep); font-weight:500; padding-top:2px; }
+  .perm-desc{ color:var(--ink-soft); font-size:.96rem; }
+  .perm-desc b{ color:var(--ink); }
+
+  /* ---------- third party table ---------- */
+  .tp-table{ width:100%; border-collapse:collapse; margin-top:8px; font-size:.94rem; }
+  .tp-table thead th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-soft); padding:0 16px 12px; border-bottom:1px solid var(--line);
+  }
+  .tp-table td{ padding:16px; border-bottom:1px solid var(--line-soft); vertical-align:top; color:var(--ink-soft); }
+  .tp-table tr:last-child td{ border-bottom:none; }
+  .tp-table td.svc{ color:var(--ink); font-weight:600; white-space:nowrap; }
+  .tp-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); background:var(--card); box-shadow:var(--shadow); }
+  .tp-wrap .tp-table{ margin:0; min-width:640px; }
+  .tp-wrap .tp-table thead th:first-child, .tp-wrap .tp-table td:first-child{ padding-left:20px; }
+
+  /* ---------- rights list ---------- */
+  .rights-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:8px; }
+  .right-item{
+    display:flex; gap:14px; padding:18px; border:1px solid var(--line); border-radius:16px; background:var(--card);
+  }
+  .right-item .num{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:1.3rem; color:var(--clay); line-height:1;
+  }
+  .right-item h4{ margin:0 0 4px; font-size:.98rem; color:var(--ink); font-weight:650; }
+  .right-item p{ margin:0; font-size:.9rem; }
+
+  /* ---------- pull quote ---------- */
+  .pull{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500;
+    font-size:clamp(1.25rem,2.6vw,1.65rem); line-height:1.4; color:var(--forest-deep);
+    border-left:2px solid var(--forest); padding-left:24px; margin:8px 0 32px;
+  }
+
+  /* ---------- footer / contact ---------- */
+  .contact-card{
+    background:linear-gradient(155deg, var(--forest-deep), var(--forest) 70%);
+    border-radius:28px; padding:44px; color:#EFF6EE; position:relative; overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(10,76,37,0.55);
+  }
+  .contact-card::after{
+    content:''; position:absolute; inset:0; opacity:.5; pointer-events:none;
+    background:radial-gradient(circle at 88% 8%, rgba(255,255,255,0.18), transparent 45%);
+  }
+  .contact-card h2{ font-family:'Fraunces',serif; font-weight:600; font-size:clamp(1.6rem,3.4vw,2.3rem); margin:0 0 12px; color:#fff; }
+  .contact-card p{ color:rgba(239,246,238,0.82); max-width:52ch; }
+  .contact-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:26px; position:relative; z-index:1; }
+  .btn{
+    font-family:'Plus Jakarta Sans',sans-serif; font-weight:650; font-size:.95rem;
+    padding:13px 22px; border-radius:100px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s ease;
+  }
+  .btn-primary{ background:#fff; color:var(--forest-deep); }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 14px 28px -12px rgba(0,0,0,.35); }
+  .btn-ghost{ background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.35); }
+  .btn-ghost:hover{ background:rgba(255,255,255,0.2); transform:translateY(-2px); }
+
+  footer{ padding:40px 0 70px; text-align:center; }
+  footer p{ font-size:.85rem; color:var(--ink-soft); margin:0; }
+  footer .paw{ opacity:.5; margin-bottom:10px; }
+
+  .back-to-top{
+    position:fixed; right:22px; bottom:22px; width:44px; height:44px; border-radius:50%;
+    background:var(--card); border:1px solid var(--line); box-shadow:var(--shadow);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:55;
+    opacity:0; pointer-events:none; transform:translateY(8px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .back-to-top.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .back-to-top svg{ width:17px; height:17px; stroke:var(--forest-deep); }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="pulse-rail" id="pulseRail">
+  <div class="track"></div>
+  <div class="fill" id="pulseFill"></div>
+</nav>
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<main class="shell">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-monogram" aria-hidden="true">
+      <svg viewBox="0 0 118 118" fill="none">
+        <circle cx="59" cy="59" r="56" stroke="rgba(21,128,61,0.18)" stroke-width="1.5"/>
+        <path class="hb-path" d="M8 59 H38 L46 34 L58 84 L68 59 L76 46 L84 59 H110" stroke="#15803D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <span class="hero-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z"/></svg>
+      Legal · Data Protection
+    </span>
+
+    <h1 class="hero-title">Your pet's records<br>stay <em>between you two</em>.<br>Mostly.</h1>
+
+    <p class="hero-sub">This is the Privacy Policy for <strong>PawDose</strong>, the pet medication tracker. It explains — in plain language first, then in full — exactly what we collect, why, and how you can delete it whenever you want.</p>
+
+    <div class="hero-meta">
+      <span class="meta-chip">Last updated: <b>August 25, 2026</b></span>
+      <span class="meta-chip">Applies to: <b>PawDose for Android</b></span>
+      <span class="meta-chip">Contact: <b>lunexisstudio.support@gmail.com</b></span>
+    </div>
+  </section>
+
+  <!-- STICKY NAV -->
+  <div class="section-nav-wrap">
+    <div class="section-nav" id="sectionNav">
+      <a class="nav-chip" data-target="overview" href="#overview">Overview</a>
+      <a class="nav-chip" data-target="collect" href="#collect">What we collect</a>
+      <a class="nav-chip" data-target="use" href="#use">How it's used</a>
+      <a class="nav-chip" data-target="security" href="#security">Security</a>
+      <a class="nav-chip" data-target="permissions" href="#permissions">App permissions</a>
+      <a class="nav-chip" data-target="thirdparty" href="#thirdparty">Third parties</a>
+      <a class="nav-chip" data-target="rights" href="#rights">Your rights</a>
+      <a class="nav-chip" data-target="children" href="#children">Children</a>
+      <a class="nav-chip" data-target="changes" href="#changes">Changes</a>
+      <a class="nav-chip" data-target="contact" href="#contact">Contact</a>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="policy-section" id="overview" data-rail-label="Overview">
+    <div class="reveal">
+      <div class="eyebrow">01 — Philosophy</div>
+      <h2 class="section-title">Privacy-first, offline-first.</h2>
+      <p class="pull">PawDose is built to work fully on your device. Cloud sync is something you switch on — never something that happens quietly in the background.</p>
+      <p class="section-intro">Your pet's medication schedule, dosage history, vet visits and vaccination records are stored in an <strong>encrypted database on your phone</strong> by default. Nothing about your pet's health leaves the device unless you explicitly sign in and enable cloud backup. This policy covers the small amount of account, diagnostic and advertising data the app does handle, and exactly which of it is optional.</p>
+    </div>
+  </section>
+
+  <!-- WHAT WE COLLECT -->
+  <section class="policy-section" id="collect" data-rail-label="What we collect">
+    <div class="reveal">
+      <div class="eyebrow">02 — Data categories</div>
+      <h2 class="section-title">What information PawDose handles</h2>
+      <p class="section-intro">We group everything the app touches into five categories. Most of it never leaves your device.</p>
+
+      <div class="card-grid">
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+          <h3>Account information</h3>
+          <p>Name, email address, and an encrypted password — or a Google identity token if you sign in with Google. Used only to identify your account and, if enabled, to sync your data across devices.</p>
+          <div class="tag-row"><span class="tag">Optional</span><span class="tag">Not shared with ads</span></div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5c2-1 3-4 3-6 0-1.7 1.3-3 3-3s3 1.3 3 3 1.3 3 3 3 3-1.3 3-3M8 14c-2.5 1-4 3-4 5.5S6 21 9 21h6c3 0 5-1 5-3.5S18 14 15.5 15"/></svg></div>
+          <h3>Pet & health records</h3>
+          <p>Pet name, species, breed, weight, medication names, dosages, schedules, dose history, vet visit notes and vaccination records — the actual content that makes the app useful.</p>
+          <div class="tag-row"><span class="tag">Encrypted at rest</span><span class="tag clay">Never used for ads</span></div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div>
+          <h3>Photos you attach</h3>
+          <p>Optional photos of your pet, a medication label, or a vaccination certificate — picked from your gallery or camera. Stored in the app's private storage, not scanned or analysed.</p>
+          <div class="tag-row"><span class="tag">Optional</span><span class="tag">Deleted with the record</span></div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+          <h3>Diagnostics & advertising</h3>
+          <p>If you consent, anonymised crash reports (Firebase Crashlytics) and an advertising identifier (Google AdMob) are used to fix bugs and show ads that help keep the app free.</p>
+          <div class="tag-row"><span class="tag clay">Consent required</span><span class="tag">Off by default</span></div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
+          <h3>Purchase information</h3>
+          <p>If you buy a premium plan, Google Play Billing handles the transaction. We only receive a purchase token and plan type — never your card details.</p>
+          <div class="tag-row"><span class="tag">Handled by Google Play</span></div>
+        </div>
+
+        <div class="data-card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg></div>
+          <h3>Biometrics & app lock</h3>
+          <p>If you enable fingerprint/face unlock, the scan is processed entirely by Android's own secure hardware. PawDose never sees or stores your biometric data — only a pass/fail result.</p>
+          <div class="tag-row"><span class="tag">Never leaves device</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE USE IT -->
+  <section class="policy-section" id="use" data-rail-label="How it's used">
+    <div class="reveal">
+      <div class="eyebrow">03 — Purpose</div>
+      <h2 class="section-title">How this information is used</h2>
+      <p class="section-intro">Every piece of data we handle maps to a specific feature. Nothing is collected "just in case."</p>
+
+      <div class="rights-grid">
+        <div class="right-item"><span class="num">01</span><div><h4>Reminders that actually fire</h4><p>Medication schedules are used locally to trigger notifications and alarms at the right time — even if you're offline.</p></div></div>
+        <div class="right-item"><span class="num">02</span><div><h4>Cross-device continuity</h4><p>If you sign in and enable backup, your records sync to your account so a new phone doesn't mean starting over.</p></div></div>
+        <div class="right-item"><span class="num">03</span><div><h4>Reports for the vet</h4><p>Dose history is compiled into CSV/PDF reports you generate and share yourself — we don't send these anywhere automatically.</p></div></div>
+        <div class="right-item"><span class="num">04</span><div><h4>Keeping the app stable</h4><p>Crash data (only with consent) helps us find and fix bugs before they affect more pet parents.</p></div></div>
+        <div class="right-item"><span class="num">05</span><div><h4>Supporting a free app</h4><p>Advertising identifiers (only with consent) let ad partners show relevant, non-intrusive ads instead of random ones.</p></div></div>
+        <div class="right-item"><span class="num">06</span><div><h4>Account & purchase security</h4><p>Your login and purchase tokens are used solely to confirm who you are and what you've unlocked.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="policy-section" id="security" data-rail-label="Security">
+    <div class="reveal">
+      <div class="eyebrow">04 — Protection</div>
+      <h2 class="section-title">How your data is protected</h2>
+      <p class="section-intro">Health information deserves clinical-grade handling, even for the four-legged kind.</p>
+
+      <div class="perm-list">
+        <div class="perm-row">
+          <div class="perm-name">AES-256 ENCRYPTION</div>
+          <div class="perm-desc">Your local database is encrypted end-to-end using <b>SQLCipher</b>, with the encryption key generated and sealed inside your device's hardware-backed <b>Android Keystore</b> — a key that never leaves your phone.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">PASSWORD HASHING</div>
+          <div class="perm-desc">App-lock PINs are hashed with <b>PBKDF2</b> and a unique random salt. We never store your PIN or password in readable form, and we can't retrieve it either.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">ENCRYPTED IN TRANSIT</div>
+          <div class="perm-desc">Any data that does sync to the cloud travels over <b>TLS-encrypted connections</b> to Google Firebase and is protected by per-account access rules — your records are visible only to your signed-in account.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">CONSENT-GATED ANALYTICS</div>
+          <div class="perm-desc">Crash reporting is <b>switched off until you explicitly consent</b> through our privacy prompt, in line with GDPR and Google Play's user-choice requirements.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">LOCAL BACKUP EXCLUSION</div>
+          <div class="perm-desc">Your medication database and app-lock credentials are deliberately excluded from Android's automatic cloud backup, so they're never silently restored onto a device you haven't unlocked yourself.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERMISSIONS -->
+  <section class="policy-section" id="permissions" data-rail-label="App permissions">
+    <div class="reveal">
+      <div class="eyebrow">05 — On your device</div>
+      <h2 class="section-title">Permissions PawDose asks for</h2>
+      <p class="section-intro">Android requires apps to declare permissions up front. Here's what each one is actually for — and none of them are used to track you.</p>
+
+      <div class="perm-list">
+        <div class="perm-row"><div class="perm-name">NOTIFICATIONS</div><div class="perm-desc">So we can show you a dose reminder when it's time to give your pet their medication.</div></div>
+        <div class="perm-row"><div class="perm-name">EXACT ALARMS</div><div class="perm-desc">So reminders fire at the precise minute you scheduled, not "sometime around" it.</div></div>
+        <div class="perm-row"><div class="perm-name">RUN AT DEVICE STARTUP</div><div class="perm-desc">So your reminders survive a phone restart instead of silently disappearing.</div></div>
+        <div class="perm-row"><div class="perm-name">STORAGE (older Android only)</div><div class="perm-desc">So exported CSV/PDF reports can be saved to your Downloads folder on Android 9 and below.</div></div>
+        <div class="perm-row"><div class="perm-name">BIOMETRIC HARDWARE</div><div class="perm-desc">Only used if you turn on fingerprint/face app-lock — processed entirely on-device.</div></div>
+        <div class="perm-row"><div class="perm-name">INTERNET</div><div class="perm-desc">Needed for optional sign-in, cloud backup, ads, and purchase verification — all separately controllable.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THIRD PARTY -->
+  <section class="policy-section" id="thirdparty" data-rail-label="Third parties">
+    <div class="reveal">
+      <div class="eyebrow">06 — Who else is involved</div>
+      <h2 class="section-title">Third-party services we rely on</h2>
+      <p class="section-intro">We don't sell data to anyone. The services below are infrastructure partners that power specific features, each bound by their own privacy and security standards.</p>
+
+      <div class="tp-wrap">
+        <table class="tp-table">
+          <thead><tr><th>Service</th><th>What it's for</th><th>What it can see</th></tr></thead>
+          <tbody>
+            <tr><td class="svc">Firebase Authentication</td><td>Account creation & sign-in, including "Sign in with Google"</td><td>Name, email, account identifier</td></tr>
+            <tr><td class="svc">Cloud Firestore</td><td>Optional encrypted-in-transit backup of your pet & medication records</td><td>Data you choose to sync — locked to your account by security rules</td></tr>
+            <tr><td class="svc">Firebase Crashlytics</td><td>Crash & stability reporting</td><td>Anonymised technical logs — only if you consent</td></tr>
+            <tr><td class="svc">Google AdMob</td><td>Displaying in-app ads on the free plan</td><td>Advertising ID — only if you consent via the consent prompt</td></tr>
+            <tr><td class="svc">Google Play Billing</td><td>Processing premium subscription purchases</td><td>Purchase token & plan — never payment card details</td></tr>
+            <tr><td class="svc">Google Sign-In</td><td>One-tap account creation</td><td>Basic profile info you approve on Google's consent screen</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHTS -->
+  <section class="policy-section" id="rights" data-rail-label="Your rights">
+    <div class="reveal">
+      <div class="eyebrow">07 — Your control</div>
+      <h2 class="section-title">Your rights, and how to use them</h2>
+      <p class="section-intro">Every control described here already exists in the app — <strong>Settings → Privacy</strong> — no email required, though we're glad to help either way.</p>
+
+      <div class="rights-grid">
+        <div class="right-item"><span class="num">→</span><div><h4>Export your records</h4><p>Generate a CSV or PDF of your dose history any time, for your own records or your vet.</p></div></div>
+        <div class="right-item"><span class="num">→</span><div><h4>Withdraw ad & analytics consent</h4><p>Revisit the consent prompt at any time to turn off Crashlytics or personalised ads.</p></div></div>
+        <div class="right-item"><span class="num">→</span><div><h4>Delete your account</h4><p>One tap permanently deletes your account and every associated record from our cloud servers.</p></div></div>
+        <div class="right-item"><span class="num">→</span><div><h4>Stay fully offline</h4><p>Skip sign-in entirely — the app is fully functional with everything kept only on your device.</p></div></div>
+        <div class="right-item"><span class="num">→</span><div><h4>Uninstall to erase</h4><p>Uninstalling the app removes the encrypted local database completely — nothing lingers behind.</p></div></div>
+        <div class="right-item"><span class="num">→</span><div><h4>Ask us directly</h4><p>Request a copy or deletion of anything you believe we still hold, at the email below.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHILDREN -->
+  <section class="policy-section" id="children" data-rail-label="Children">
+    <div class="reveal">
+      <div class="eyebrow">08 — Age</div>
+      <h2 class="section-title">Children's privacy</h2>
+      <p class="section-intro">PawDose is designed for pet owners and is <strong>not directed at children under 13</strong> (or the equivalent minimum age in your region). We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, contact us and we'll remove it promptly.</p>
+    </div>
+  </section>
+
+  <!-- CHANGES -->
+  <section class="policy-section" id="changes" data-rail-label="Changes">
+    <div class="reveal">
+      <div class="eyebrow">09 — Updates</div>
+      <h2 class="section-title">Changes to this policy</h2>
+      <p class="section-intro">If we make a material change to how we handle your data, we'll update the "Last updated" date above and, for significant changes, notify you inside the app before they take effect. We encourage checking back periodically.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="policy-section" id="contact" data-rail-label="Contact">
+    <div class="reveal">
+      <div class="contact-card">
+        <h2>Questions? Talk to a human.</h2>
+        <p>For privacy questions, data export requests, or to delete anything we hold on your behalf, reach out — we typically reply within a couple of days.</p>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:lunexisstudio.support@gmail.com">✉ lunexisstudio.support@gmail.com</a>
+          <a class="btn btn-ghost" href="mailto:lunexisstudio.support@gmail.com?subject=Delete%20my%20PawDose%20data">Request data deletion</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="paw">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="1.6"><circle cx="7" cy="8" r="2"/><circle cx="12" cy="5.5" r="2"/><circle cx="17" cy="8" r="2"/><path d="M12 12c-3 0-6 2.3-6 5.2 0 1.8 1.6 2.8 3.3 2.2.9-.3 1.7-.4 2.7-.4s1.8.1 2.7.4c1.7.6 3.3-.4 3.3-2.2 0-2.9-3-5.2-6-5.2Z"/></svg>
+    </div>
+    <p>© 2026 Lunexis Studios · PawDose. Made with care for pets and their people.</p>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  var railLabels = {
+    overview:'Overview', collect:'What we collect', use:'How it\'s used', security:'Security',
+    permissions:'Permissions', thirdparty:'Third parties', rights:'Your rights',
+    children:'Children', changes:'Changes', contact:'Contact'
+  };
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.policy-section'));
+  var navChips = Array.prototype.slice.call(document.querySelectorAll('.nav-chip'));
+  var rail = document.getElementById('pulseRail');
+  var pulseFill = document.getElementById('pulseFill');
+  var progressBar = document.getElementById('progressBar');
+  var backToTop = document.getElementById('backToTop');
+
+  // Build rail dots
+  sections.forEach(function(sec){
+    var dot = document.createElement('div');
+    dot.className = 'dot';
+    dot.dataset.id = sec.id;
+    var label = document.createElement('span');
+    label.className = 'rail-label';
+    label.textContent = railLabels[sec.id] || sec.id;
+    dot.appendChild(label);
+    rail.appendChild(dot);
+  });
+  var railDots = Array.prototype.slice.call(rail.querySelectorAll('.dot'));
+
+  function positionDots(){
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var railHeight = rail.offsetHeight;
+    sections.forEach(function(sec, i){
+      var pct = Math.min(1, sec.offsetTop / docHeight);
+      railDots[i].style.top = (pct * railHeight) + 'px';
+    });
+  }
+
+  function onScroll(){
+    var scrollY = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? Math.min(1, Math.max(0, scrollY / docHeight)) : 0;
+
+    progressBar.style.setProperty('--scroll-pct', (pct*100) + '%');
+    pulseFill.style.height = (pct*100) + '%';
+
+    backToTop.classList.toggle('show', scrollY > 600);
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', positionDots);
+  positionDots();
+  onScroll();
+
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // Reveal on scroll + scrollspy
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var reveal = entry.target.querySelector('.reveal');
+        if(reveal) reveal.classList.add('in');
+
+        var id = entry.target.id;
+        navChips.forEach(function(chip){ chip.classList.toggle('active', chip.dataset.target === id); });
+        railDots.forEach(function(dot){ dot.classList.toggle('active', dot.dataset.id === id); });
+      }
+    });
+  }, {rootMargin:'-35% 0px -55% 0px', threshold:0});
+
+  sections.forEach(function(sec){ io.observe(sec); });
+
+  // Nav chip click = smooth scroll
+  navChips.forEach(function(chip){
+    chip.addEventListener('click', function(e){
+      e.preventDefault();
+      var target = document.getElementById(chip.dataset.target);
+      if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+
+  // Auto-scroll active nav chip into view within the horizontal strip
+  var navWrap = document.getElementById('sectionNav');
+  var chipObserver = new MutationObserver(function(){
+    var active = navWrap.querySelector('.nav-chip.active');
+    if(active){ active.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}); }
+  });
+  navChips.forEach(function(chip){ chipObserver.observe(chip, {attributes:true, attributeFilter:['class']}); });
+})();
+</script>
+
+</body>
+</html>
