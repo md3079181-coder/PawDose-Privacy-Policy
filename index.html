@@ -347,6 +347,7 @@
       <a class="nav-chip" data-target="permissions" href="#permissions">App permissions</a>
       <a class="nav-chip" data-target="thirdparty" href="#thirdparty">Third parties</a>
       <a class="nav-chip" data-target="rights" href="#rights">Your rights</a>
+      <a class="nav-chip" data-target="delete-account" href="#delete-account">Delete account</a>
       <a class="nav-chip" data-target="children" href="#children">Children</a>
       <a class="nav-chip" data-target="changes" href="#changes">Changes</a>
       <a class="nav-chip" data-target="contact" href="#contact">Contact</a>
@@ -525,10 +526,50 @@
     </div>
   </section>
 
+  <!-- DELETE ACCOUNT -->
+  <section class="policy-section" id="delete-account" data-rail-label="Delete account">
+    <div class="reveal">
+      <div class="eyebrow">08 — Deletion</div>
+      <h2 class="section-title">How to delete your PawDose account</h2>
+      <p class="section-intro">PawDose lets you permanently delete your account and all associated cloud data directly from the app — no email or waiting period required.</p>
+
+      <div class="perm-list">
+        <div class="perm-row">
+          <div class="perm-name">STEP 1</div>
+          <div class="perm-desc">Open <b>PawDose</b> and sign in to the account you want to delete.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">STEP 2</div>
+          <div class="perm-desc">Go to <b>Settings → Account → Delete Account</b>.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">STEP 3</div>
+          <div class="perm-desc">Confirm the deletion when prompted. This is <b>permanent and cannot be undone</b>.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">WHAT'S DELETED</div>
+          <div class="perm-desc">Your account credentials, and every pet, medication, dose history, vet visit and vaccination record synced to our cloud servers (Firebase) are <b>deleted immediately</b> upon confirmation.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">WHAT'S RETAINED</div>
+          <div class="perm-desc">Nothing is retained on our servers after account deletion. Data stored only on your device is removed when you uninstall the app. We may keep anonymised crash logs (if you consented to Crashlytics) that contain no identifying information, for up to 90 days.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">NO ACCOUNT? NO PROBLEM</div>
+          <div class="perm-desc">If you used PawDose without signing in, all your data lives only on your device — simply uninstall the app to erase it completely.</div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-name">NEED HELP</div>
+          <div class="perm-desc">Can't access the app? Email <a href="mailto:lunexisstudio.support@gmail.com?subject=Delete%20my%20PawDose%20account">lunexisstudio.support@gmail.com</a> from your registered email address and we'll delete your account and data within 7 days.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CHILDREN -->
   <section class="policy-section" id="children" data-rail-label="Children">
     <div class="reveal">
-      <div class="eyebrow">08 — Age</div>
+      <div class="eyebrow">09 — Age</div>
       <h2 class="section-title">Children's privacy</h2>
       <p class="section-intro">PawDose is designed for pet owners and is <strong>not directed at children under 13</strong> (or the equivalent minimum age in your region). We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, contact us and we'll remove it promptly.</p>
     </div>
@@ -537,7 +578,7 @@
   <!-- CHANGES -->
   <section class="policy-section" id="changes" data-rail-label="Changes">
     <div class="reveal">
-      <div class="eyebrow">09 — Updates</div>
+      <div class="eyebrow">10 — Updates</div>
       <h2 class="section-title">Changes to this policy</h2>
       <p class="section-intro">If we make a material change to how we handle your data, we'll update the "Last updated" date above and, for significant changes, notify you inside the app before they take effect. We encourage checking back periodically.</p>
     </div>
@@ -571,7 +612,7 @@
   var railLabels = {
     overview:'Overview', collect:'What we collect', use:'How it\'s used', security:'Security',
     permissions:'Permissions', thirdparty:'Third parties', rights:'Your rights',
-    children:'Children', changes:'Changes', contact:'Contact'
+    'delete-account':'Delete account', children:'Children', changes:'Changes', contact:'Contact'
   };
   var sections = Array.prototype.slice.call(document.querySelectorAll('.policy-section'));
   var navChips = Array.prototype.slice.call(document.querySelectorAll('.nav-chip'));
@@ -622,21 +663,54 @@
     window.scrollTo({top:0, behavior:'smooth'});
   });
 
-  // Reveal on scroll + scrollspy
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if(entry.isIntersecting){
-        var reveal = entry.target.querySelector('.reveal');
-        if(reveal) reveal.classList.add('in');
+  // Reveal on scroll (fires as soon as a section starts entering the viewport,
+  // so short sections near the bottom of the page — which can never reach the
+  // vertical center once the page hits max scroll — still get revealed).
+  function revealSection(sec){
+    var reveal = sec.querySelector('.reveal');
+    if(reveal) reveal.classList.add('in');
+  }
 
-        var id = entry.target.id;
-        navChips.forEach(function(chip){ chip.classList.toggle('active', chip.dataset.target === id); });
-        railDots.forEach(function(dot){ dot.classList.toggle('active', dot.dataset.id === id); });
-      }
-    });
-  }, {rootMargin:'-35% 0px -55% 0px', threshold:0});
+  if('IntersectionObserver' in window){
+    var revealIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          revealSection(entry.target);
+          revealIo.unobserve(entry.target); // one-shot, avoids re-hiding on scroll up
+        }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0});
+    sections.forEach(function(sec){ revealIo.observe(sec); });
 
-  sections.forEach(function(sec){ io.observe(sec); });
+    // Narrower band just for "which section is active" nav/rail highlighting —
+    // independent of the reveal animation, so a missed scrollspy tick never
+    // hides content.
+    var spyIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          var id = entry.target.id;
+          navChips.forEach(function(chip){ chip.classList.toggle('active', chip.dataset.target === id); });
+          railDots.forEach(function(dot){ dot.classList.toggle('active', dot.dataset.id === id); });
+        }
+      });
+    }, {rootMargin:'-35% 0px -55% 0px', threshold:0});
+    sections.forEach(function(sec){ spyIo.observe(sec); });
+  } else {
+    // No IntersectionObserver support: just show everything.
+    sections.forEach(revealSection);
+  }
+
+  // Safety net: anything already sitting in the viewport on load (e.g. a very
+  // short/zoomed page where the whole document fits without scrolling) gets
+  // revealed immediately instead of waiting on an observer callback.
+  sections.forEach(function(sec){
+    var r = sec.getBoundingClientRect();
+    if(r.top < window.innerHeight && r.bottom > 0){ revealSection(sec); }
+  });
+
+  // Absolute last resort: never leave content invisible for more than a beat,
+  // even if something above silently failed.
+  setTimeout(function(){ sections.forEach(revealSection); }, 2500);
 
   // Nav chip click = smooth scroll
   navChips.forEach(function(chip){
